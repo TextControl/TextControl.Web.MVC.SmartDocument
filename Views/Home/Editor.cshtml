@@ -1,0 +1,67 @@
+﻿@model tx_pdf_container.SmartDocument
+
+@using TXTextControl.Web.MVC
+
+@{
+    ViewData["Title"] = "Edit Document";
+}
+
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto">Smart Document Container</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            Document has been saved successfully!
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <a href="@Url.Action("Index","Home")" type="button" class="btn btn-primary mb-2">Back</a>
+    <button onclick="saveDocument()" type="button" class="btn btn-outline-danger mb-2">Save Document</button>
+</div>
+<div style="width: 100%; height: calc(100vH - 57px - 1.5rem - 38px);">
+
+    @Html.TXTextControl().TextControl(settings => {
+        settings.Dock = TXTextControl.Web.DockStyle.Fill;
+    }).LoadText(Convert.FromBase64String(Model.Document), TXTextControl.Web.BinaryStreamType.InternalUnicodeFormat).Render()
+
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+         function saveDocument() {
+
+            TXTextControl.saveDocument(TXTextControl.StreamType.InternalUnicodeFormat, function (data) {
+
+                var serviceURL = "/Home/SaveDocument";
+
+                var model = { Document: data.data, Name: "@Model.Name", Annotations: "@Model.Annotations" };
+
+                $.ajax({
+                    type: "POST",
+                    url: serviceURL,
+                    contentType: 'application/json',
+                    data: JSON.stringify(model),
+                    success: successFunc,
+                    error: errorFunc
+                });
+
+                function successFunc(data, status) {
+                    $('.toast').toast('show');
+                }
+
+                function errorFunc() {
+                    alert("error");
+                }
+            });
+
+        }
+
+    </script>
+}
+
+

@@ -1,0 +1,77 @@
+﻿@using TXTextControl.Web.MVC.DocumentViewer
+
+@model tx_pdf_container.SmartDocument
+
+@{
+    ViewData["Title"] = "View Document";
+}
+
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto">Smart Document Container</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            Annotations have been saved successfully!
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <a href="@Url.Action("Index","Home")" type="button" class="btn btn-primary mb-2">Back</a>
+    <button onclick="saveAnnotations()" type="button" class="btn btn-outline-danger mb-2">Save Annotations</button>
+</div>
+<div style="width: 100%; height: calc(100vH - 57px - 1.5rem - 38px);">
+
+    @Html.TXTextControl().DocumentViewer(settings => {
+       settings.DocumentData = Model.Document;
+       settings.DocumentPath = Model.Name;
+       settings.Dock = DocumentViewerSettings.DockStyle.Fill;
+    }).Render()
+
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        window.addEventListener("documentViewerLoaded", function () {
+
+            TXDocumentViewer.annotations.showToolbar(true);
+
+            var jsonAnnotations = '@Html.Raw(@Model.Annotations.Replace("\\", "\\\\"))';
+
+            if (jsonAnnotations !== "") {
+                TXDocumentViewer.annotations.load(jsonAnnotations);
+            }
+        });
+
+        function saveAnnotations() {
+            var annotationsJson = TXDocumentViewer.annotations.export();
+
+            var serviceURL = "/Home/SaveAnnotations";
+
+                var model = { Name: "@Model.Name", Annotations: annotationsJson };
+
+                $.ajax({
+                    type: "POST",
+                    url: serviceURL,
+                    contentType: 'application/json',
+                    data: JSON.stringify(model),
+                    success: successFunc,
+                    error: errorFunc
+                });
+
+                function successFunc(data, status) {
+                    $('.toast').toast('show');
+                }
+
+                function errorFunc() {
+                    alert("error");
+                }
+        }
+
+    </script>
+}
+
+

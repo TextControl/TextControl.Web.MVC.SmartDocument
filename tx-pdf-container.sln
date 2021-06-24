@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31105.61
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tx-pdf-container", "tx-pdf-container.csproj", "{B45108B8-377D-4E20-979C-081E7D3AA516}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B45108B8-377D-4E20-979C-081E7D3AA516}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B45108B8-377D-4E20-979C-081E7D3AA516}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B45108B8-377D-4E20-979C-081E7D3AA516}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B45108B8-377D-4E20-979C-081E7D3AA516}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {50601AD2-C958-4C42-98E1-4C7AF9935EB6}
+	EndGlobalSection
+EndGlobal
